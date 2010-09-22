@@ -75,6 +75,28 @@ Result:
       }
     }
 
+# Nothing in common
+
+In this case, the result has no \* key and the patcher can skip
+doing a compariSON and just return the second argument!
+
+Call:
+
+    fid({
+      "oranges": 3,
+      "bananas": 5
+    },
+    {
+      "apples": 2,
+      "pears":  1
+    })
+
+Result:
+
+    {
+      "apples": 2,
+      "pears":  1
+    }
 
 # TODO
 
