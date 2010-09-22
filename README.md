@@ -184,6 +184,7 @@ Result:
 
 # TODO
 
+* Make reversible the default again (UNIX diffs are reversible)
 * Implement with ruby
 * Implement with javascript
 * Handle edge cases
