@@ -24,12 +24,12 @@ Result:
     {
       "apples":  {"golden": 1},
       "bananas": 3,
-      "pears": null,
       "oranges": 6,
       "*": {
         "<": {
           "apples":  {"red": 2, "green": 1},
-          "bananas": 5
+          "bananas": 5,
+          "pears": 1
         },
         ">": {
           "oranges": 1
@@ -115,9 +115,19 @@ Result:
       ]
     }
 
+# Example Documents
+
+I'm going to try to get some good, fun example documents together.
+One is documents that represent real things that change, like the
+company objects in the
+[CrunchBase](http://www.crunchbase.com/help/api)
+[API](http://groups.google.com/group/crunchbase-api/web/api-v1-documentation).
+
+One use of the examples will be to check whether the diff docs for them are
+easy to read and understand.
+
 # Edge Cases
 
-* null value in second object
 * array that starts with "\*"
 * hash containing "\*" key
 
