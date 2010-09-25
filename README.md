@@ -2,7 +2,7 @@
 
 Fid will be a JSON diff/patch tool.
 
-## Object
+# Object
 
 Call:
 
@@ -22,24 +22,18 @@ Call:
 Result:
 
     {
-      "apples":  {"golden": 1},
-      "bananas": 3,
-      "oranges": 6,
-      "*": {
-        "<": {
-          "apples":  {"red": 2, "green": 1},
-          "bananas": 5,
-          "pears": 1
-        },
-        ">": {
-          "oranges": 1
-        }
-      }
+      "apples":  {
+        ">": {"golden": 1},
+        "<": {"red": 2, "green": 1}
+      },
+      "bananas": {">": 3, "<": 5},
+      "oranges": {">": 6},
+      "pears":   {"<": 1}
     }
 
-## Array
+# Array
 
-Based on UNIX diff. Starts with an asterisk. Also an example of a nested diff.
+Based on UNIX diff.
 
 Call:
 
@@ -79,7 +73,6 @@ Result:
 
     {
       "lines": [
-        "*",
         {
           "-": "1,2c1",
           "<": [
@@ -115,6 +108,43 @@ Result:
       ]
     }
 
+# Deep
+
+Call:
+
+    fid({
+      "house": {
+        "size": "1500 sq ft",
+        "hvac": {
+          "heater": "electric baseboard"
+        }
+      },
+      "lot": {
+        "size": "2 acres"
+      }
+    },
+    {
+      "house": {
+        "size": "1500 sq ft",
+        "hvac": {
+          "heater": "gas"
+        }
+      },
+      "lot": {
+        "size": "2 acres"
+      }
+    })
+
+Result:
+
+    {
+      "house": {
+        "hvac": {
+          "heater": {">": "gas", "<": "electric baseboard"}
+        }
+      }
+    }
+
 # Example Documents
 
 I'm going to try to get some good, fun example documents together.
@@ -128,12 +158,10 @@ easy to read and understand.
 
 # Edge Cases
 
-* array that starts with "\*"
-* hash containing "\*" key
+* objects that contain <, >, or - keys
 
 # TODO
 
-* Make reversible the default again (UNIX diffs are reversible)
 * Implement with ruby
 * Implement with javascript
 * Handle edge cases
