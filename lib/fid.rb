@@ -14,4 +14,18 @@ module Fid
     end
     _diff
   end
+
+  def self.patch(doc, _patch)
+    patched = doc.clone
+    _patch.each do |k, v|
+      if v.include?('<') and v.include?('>')
+        patched[k] = v['>']
+      elsif v.include?('<')
+        patched.delete(k)
+      elsif v.include?('>')
+        patched[k] = v['>']
+      end
+    end
+    patched
+  end
 end
