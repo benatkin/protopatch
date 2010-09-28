@@ -56,41 +56,41 @@ describe Fid, "#patch" do
     Fid.patch({'apples' => 1}, {'apples' => {'<' => 1}}).should == {}
   end
 
-  #it 'returns ">" for item not in 1st object' do
-  #  Fid.diff({}, {'bananas' => 3}).should == {'bananas' => {'>' => 3}}
-  #end
+  it 'adds ">" item in patch' do
+    Fid.patch({}, {'bananas' => {'>' => 3}}).should == {'bananas' => 3}
+  end
 
-  #it 'returns "<" and "> for changed item' do
-  #  Fid.diff({'bananas' => 5}, {'bananas' => 3})
-  #     .should == {'bananas' => {'<' => 5, '>' => 3}}
-  #end
+  it 'replaces "<" and ">" item in patch' do
+    Fid.patch({'bananas' => 5}, {'bananas' => {'<' => 5, '>' => 3}})
+       .should == {'bananas' => 3}
+  end
 
-  #it 'omits unchanged item' do
-  #  Fid.diff({'bananas' => 5}, {'bananas' => 5}).should == {}
-  #end
+  it 'leaves unchanged with empty patch' do
+    Fid.patch({'bananas' => 5}, {}).should == {'bananas' => 5}
+  end
 
-  #it 'correctly returns diff from README' do
-  #  Fid.diff({
-  #             "pears"   => 1,
-  #             "apples"  => {"red" => 2, "green" => 1},
-  #             "bananas" => 5,
-  #             "mangos"  => 2
-  #           },
-  #           {
-  #             "apples"  => {"golden" => 1},
-  #             "bananas" => 3,
-  #             "oranges" => 6,
-  #             "mangos"  => 2
-  #           })
-  #     .should == {
-  #                  "apples"  => {
-  #                                 ">" => {"golden" => 1},
-  #                                 "<" => {"red" => 2, "green" => 1}
-  #                               },
-  #                  "bananas" => {">" => 3, "<" => 5},
-  #                  "oranges" => {">" => 6},
-  #                  "pears"   => {"<" => 1}
-  #                }
-  #end
+  it 'correctly patches with diff from README' do
+    Fid.patch({
+                "pears"   => 1,
+                "apples"  => {"red" => 2, "green" => 1},
+                "bananas" => 5,
+                "mangos"  => 2
+              },
+              {
+                "apples"  => {
+                               ">" => {"golden" => 1},
+                               "<" => {"red" => 2, "green" => 1}
+                             },
+                "bananas" => {">" => 3, "<" => 5},
+                "oranges" => {">" => 6},
+                "pears"   => {"<" => 1}
+              })
+       .should == {
+                    "apples"  => {"golden" => 1},
+                    "bananas" => 3,
+                    "oranges" => 6,
+                    "mangos"  => 2
+                  }
+  end
 end
 
