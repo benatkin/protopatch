@@ -52,9 +52,9 @@ describe Fid, "#patch" do
     Fid.patch({}, {}).should == {}
   end
 
-  #it 'returns "<" for item not in 2nd object' do
-  #  Fid.diff({'apples' => 1}, {}).should == {'apples' => {'<' => 1}}
-  #end
+  it 'removes "<" item in patch' do
+    Fid.patch({'apples' => 1}, {'apples' => {'<' => 1}}).should == {}
+  end
 
   #it 'returns ">" for item not in 1st object' do
   #  Fid.diff({}, {'bananas' => 3}).should == {'bananas' => {'>' => 3}}
