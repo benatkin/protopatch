@@ -1,3 +1,5 @@
 module Fid
-  # Your code goes here...
+  def self.diff(doc1, doc2)
+    {}
+  end
 end
