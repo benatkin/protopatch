@@ -1,0 +1,180 @@
+<h1>fid* - I see what you did!</h1>
+
+<p>Fid will be a JSON diff/patch tool.</p>
+
+<h1>Object</h1>
+
+<p>Call:</p>
+
+<pre><code>fid({
+  "pears":   1,
+  "apples":  {"red": 2, "green": 1},
+  "bananas": 5,
+  "mangos":  2
+},
+{
+  "apples":  {"golden": 1},
+  "bananas": 3,
+  "oranges": 6,
+  "mangos":  2
+})
+</code></pre>
+
+<p>Result:</p>
+
+<pre><code>{
+  "apples":  {
+    "&gt;": {"golden": 1},
+    "&lt;": {"red": 2, "green": 1}
+  },
+  "bananas": {"&gt;": 3, "&lt;": 5},
+  "oranges": {"&gt;": 6},
+  "pears":   {"&lt;": 1}
+}
+</code></pre>
+
+<h1>Array</h1>
+
+<p>Based on UNIX diff.</p>
+
+<p>Call:</p>
+
+<pre><code>fid({
+  "lines": [
+    "#!/usr/bin/env ruby",
+    "require 'rubygems'",
+    "require 'sinatra'",
+    "",
+    "get '/' do",
+    "  'Hello world!'",
+    "end"
+  ]
+},
+{
+  "lines": [
+    "#!/usr/bin/env ruby -rubygems",
+    "require 'sinatra'",
+    "require 'haml'",
+    "",
+    "get '/inline' do",
+    "  haml '%div.title Hello World'",
+    "end",
+    "",
+    "get '/' do",
+    "  haml :index",
+    "end",
+    "",
+    "get '/stylesheet.css' do",
+    "  content_type 'text/css', :charset =&gt; 'utf-8'",
+    "  sass :stylesheet",
+    "end"
+  ]
+})
+</code></pre>
+
+<p>Result:</p>
+
+<pre><code>{
+  "lines": [
+    {
+      "-": "1,2c1",
+      "&lt;": [
+        "#!/usr/bin/env ruby",
+        "require 'rubygems'"
+      ],
+      "&gt;": ["#!/usr/bin/env ruby -rubygems"]
+    },
+    {
+      "-": "3a3,7",
+      "&gt;": [
+        "require 'haml'",
+        "",
+        "get '/inline' do",
+        "  haml '%div.title Hello World'",
+        "end"
+      ]
+    },
+    {
+      "-": "6c10,15",
+      "&lt;": [
+        "  'Hello world!'"
+      ]
+      "&gt;": [
+        "  haml :index",
+        "end",
+        "",
+        "get '/stylesheet.css' do",
+        "  content_type 'text/css', :charset =&gt; 'utf-8'",
+        "  sass :stylesheet",
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<h1>Deep</h1>
+
+<p>Call:</p>
+
+<pre><code>fid({
+  "house": {
+    "size": "1500 sq ft",
+    "hvac": {
+      "heater": "electric baseboard"
+    }
+  },
+  "lot": {
+    "size": "2 acres"
+  }
+},
+{
+  "house": {
+    "size": "1500 sq ft",
+    "hvac": {
+      "heater": "gas"
+    }
+  },
+  "lot": {
+    "size": "2 acres"
+  }
+})
+</code></pre>
+
+<p>Result:</p>
+
+<pre><code>{
+  "house": {
+    "hvac": {
+      "heater": {"&gt;": "gas", "&lt;": "electric baseboard"}
+    }
+  }
+}
+</code></pre>
+
+<h1>Example Documents</h1>
+
+<p>I'm going to try to get some good, fun example documents together.
+One is documents that represent real things that change, like the
+company objects in the
+<a href="http://www.crunchbase.com/help/api">CrunchBase</a>
+<a href="http://groups.google.com/group/crunchbase-api/web/api-v1-documentation">API</a>.</p>
+
+<p>One use of the examples will be to check whether the diff docs for them are
+easy to read and understand.</p>
+
+<h1>Edge Cases</h1>
+
+<ul>
+<li>objects that contain &lt;, >, or - keys</li>
+</ul>
+
+
+<h1>TODO</h1>
+
+<ul>
+<li>Implement with ruby</li>
+<li>Implement with javascript</li>
+<li>Handle edge cases</li>
+<li>Add features!</li>
+</ul>
+
