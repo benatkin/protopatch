@@ -2,6 +2,18 @@
 
 Fid will be a JSON diff/patch tool.
 
+# No difference
+
+    expect(Fid.diff({"x": 5}, {"x": 5})).toEqual({});
+
+# Completely different
+
+    expect(Fid.diff({"red": 2, "green": 1}, {"golden": 1}))
+      .toEqual({
+        ">": {"golden": 1},
+        "<": {"red": 2, "green": 1}
+      });
+
 # Object
 
 Call:
@@ -167,6 +179,9 @@ easy to read and understand.
 # Edge Cases
 
 * objects that contain <, >, or - keys
+
+One way to deal with edge cases is to return an error if objects contain the keys.
+This would necessitate changing the keys used by fid before calling fid.
 
 # TODO
 
