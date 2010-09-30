@@ -31,9 +31,44 @@ Result:
       "pears":   {"<": 1}
     }
 
-# Array
+# Deep
 
-Based on UNIX diff.
+Call:
+
+    fid({
+      "house": {
+        "size": "1500 sq ft",
+        "hvac": {
+          "heater": "electric baseboard"
+        }
+      },
+      "lot": {
+        "size": "2 acres"
+      }
+    },
+    {
+      "house": {
+        "size": "1500 sq ft",
+        "hvac": {
+          "heater": "gas"
+        }
+      },
+      "lot": {
+        "size": "2 acres"
+      }
+    })
+
+Result:
+
+    {
+      "house": {
+        "hvac": {
+          "heater": {">": "gas", "<": "electric baseboard"}
+        }
+      }
+    }
+
+# Array
 
 Call:
 
@@ -74,7 +109,7 @@ Result:
     {
       "lines": [
         {
-          "-": "1,2c1",
+          "-": 0,
           "<": [
             "#!/usr/bin/env ruby",
             "require 'rubygems'"
@@ -82,7 +117,7 @@ Result:
           ">": ["#!/usr/bin/env ruby -rubygems"]
         },
         {
-          "-": "3a3,7",
+          "-": 2,
           ">": [
             "require 'haml'",
             "",
@@ -92,7 +127,7 @@ Result:
           ]
         },
         {
-          "-": "6c10,15",
+          "-": 9,
           "<": [
             "  'Hello world!'"
           ]
@@ -108,40 +143,13 @@ Result:
       ]
     }
 
-# Deep
+Patching:
 
-Call:
-
-    fid({
-      "house": {
-        "size": "1500 sq ft",
-        "hvac": {
-          "heater": "electric baseboard"
-        }
-      },
-      "lot": {
-        "size": "2 acres"
-      }
-    },
-    {
-      "house": {
-        "size": "1500 sq ft",
-        "hvac": {
-          "heater": "gas"
-        }
-      },
-      "lot": {
-        "size": "2 acres"
-      }
-    })
-
-Result:
-
-    {
-      "house": {
-        "hvac": {
-          "heater": {">": "gas", "<": "electric baseboard"}
-        }
+    function patch(orig, adiff) {
+      for (var i=0; i < adiff.length; i++) {
+        var diff = adiff[i];
+        var args = [diff["-"], diff["<"] ? diff["<"].length : 0].concat(diff[">"] ? diff[">"] : []);
+        arr.splice.apply(arr, args);
       }
     }
 
