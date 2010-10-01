@@ -44,5 +44,20 @@ describe 'Fid', () ->
       expect(Fid.diff(flat_doc1, flat_doc2)).toEqual(flat_diff)
 
   describe 'patch', () ->
+
     it 'returns {} for two empty objects', () ->
       expect(Fid.patch({}, {})).toEqual({});
+
+    it 'removes "<" item in patch', () ->
+      expect(Fid.patch({'apples': 1}, {'apples': {'<': 1}})).toEqual({})
+
+    it 'adds ">" item in patch', () ->
+      expect(Fid.patch({}, {'bananas': {'>': 3}})).toEqual({'bananas': 3})
+
+    it 'replaces "<" and ">" item in patch', () ->
+      Fid.patch({'bananas': 5}, {'bananas': {'<': 5, '>': 3}})
+         .should == {'bananas': 3}
+
+    it 'leaves unchanged with empty patch', () ->
+      Fid.patch({'bananas': 5}, {}).should == {'bananas': 5}
+

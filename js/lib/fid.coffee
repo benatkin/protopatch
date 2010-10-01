@@ -15,6 +15,17 @@ class Fid
       else if doc2[k]
         _diff[k] = {'>': doc2[k]}
     _diff
-  @patch: (doc1, doc2) -> {}
+  @patch: (doc, _patch) ->
+    patched = {}
+    for k of doc
+      patched[k] = doc[k]
+    for k of _patch
+      if _patch[k]['<'] and _patch[k]['>']
+        patched[k] = _patch[k]['>']
+      else if _patch[k]['<']
+        delete patched[k]
+      else if _patch[k]['>']
+        patched[k] = _patch[k]['>']
+    patched
 
 window.Fid = Fid

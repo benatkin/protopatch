@@ -41,8 +41,28 @@
     }
     return _diff;
   };
-  Fid.patch = function(doc1, doc2) {
-    return {};
+  Fid.patch = function(doc, _patch) {
+    var _i, _ref, k, patched;
+    patched = {};
+    _ref = doc;
+    for (k in _ref) {
+      if (!__hasProp.call(_ref, k)) continue;
+      _i = _ref[k];
+      patched[k] = doc[k];
+    }
+    _ref = _patch;
+    for (k in _ref) {
+      if (!__hasProp.call(_ref, k)) continue;
+      _i = _ref[k];
+      if (_patch[k]['<'] && _patch[k]['>']) {
+        patched[k] = _patch[k]['>'];
+      } else if (_patch[k]['<']) {
+        delete patched[k];
+      } else if (_patch[k]['>']) {
+        patched[k] = _patch[k]['>'];
+      }
+    }
+    return patched;
   };
   window.Fid = Fid;
 }).call(this);

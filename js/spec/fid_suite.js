@@ -85,8 +85,45 @@
       });
     });
     return describe('patch', function() {
-      return it('returns {} for two empty objects', function() {
+      it('returns {} for two empty objects', function() {
         return expect(Fid.patch({}, {})).toEqual({});
+      });
+      it('removes "<" item in patch', function() {
+        return expect(Fid.patch({
+          'apples': 1
+        }, {
+          'apples': {
+            '<': 1
+          }
+        })).toEqual({});
+      });
+      it('adds ">" item in patch', function() {
+        return expect(Fid.patch({}, {
+          'bananas': {
+            '>': 3
+          }
+        })).toEqual({
+          'bananas': 3
+        });
+      });
+      it('replaces "<" and ">" item in patch', function() {
+        return Fid.patch({
+          'bananas': 5
+        }, {
+          'bananas': {
+            '<': 5,
+            '>': 3
+          }
+        }).should === {
+          'bananas': 3
+        };
+      });
+      return it('leaves unchanged with empty patch', function() {
+        return Fid.patch({
+          'bananas': 5
+        }, {}).should === {
+          'bananas': 5
+        };
       });
     });
   });
