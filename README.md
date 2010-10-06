@@ -4,7 +4,7 @@ Fid will be a JSON diff/patch tool.
 
 # No difference
 
-    expect(Fid.diff({"x": 5}, {"x": 5})).toEqual({});
+    expect(Fid.diff({"x": 5}, {"x": 5})).toEqual(null);
 
 # Completely different
 
