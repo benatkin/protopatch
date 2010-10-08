@@ -10,8 +10,8 @@ Fid will be a JSON diff/patch tool.
 
     expect(Fid.diff({"red": 2, "green": 1}, {"golden": 1}))
       .toEqual({
-        ">": {"golden": 1},
-        "<": {"red": 2, "green": 1}
+        "+": {"golden": 1},
+        "-": {"red": 2, "green": 1}
       });
 
 # Object
@@ -35,12 +35,12 @@ Result:
 
     {
       "apples":  {
-        ">": {"golden": 1},
-        "<": {"red": 2, "green": 1}
+        "+": {"golden": 1},
+        "-": {"red": 2, "green": 1}
       },
-      "bananas": {">": 3, "<": 5},
-      "oranges": {">": 6},
-      "pears":   {"<": 1}
+      "bananas": {"+": 3, "-": 5},
+      "oranges": {"+": 6},
+      "pears":   {"-": 1}
     }
 
 # Deep
@@ -75,7 +75,7 @@ Result:
     {
       "house": {
         "hvac": {
-          "heater": {">": "gas", "<": "electric baseboard"}
+          "heater": {"+": "gas", "-": "electric baseboard"}
         }
       }
     }
@@ -93,7 +93,7 @@ easy to read and understand.
 
 # Edge Cases
 
-* objects that contain <, >, or - keys
+* objects that contain -, +, or - keys
 
 One way to deal with edge cases is to return an error if objects contain the keys.
 This would necessitate changing the keys used by fid before calling fid.
