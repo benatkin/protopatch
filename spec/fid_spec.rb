@@ -28,11 +28,11 @@ describe Fid, "#diff" do
   end
 
   it 'returns "<" for item not in 2nd object' do
-    Fid.diff({'apples' => 1}, {}).should == {'apples' => {'<' => 1}}
+    Fid.diff({'apples' => 1}, {}).should == {'<' => {'apples' => 1}}
   end
 
   it 'returns ">" for item not in 1st object' do
-    Fid.diff({}, {'bananas' => 3}).should == {'bananas' => {'>' => 3}}
+    Fid.diff({}, {'bananas' => 3}).should == {'>' => {'bananas' => 3}}
   end
 
   it 'returns "<" and ">" for changed item' do
