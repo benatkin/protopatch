@@ -17,29 +17,28 @@ module Fid
       end
       _diff
     else
-      if doc1.keys.size + doc2.keys.size > 0
-        _diff = {}
-        _diff['<'] = doc1 if doc1.keys.size > 0
-        _diff['>'] = doc2 if doc2.keys.size > 0
-        _diff
-      end
+      _diff = {'<' => doc1, '>' => doc2}
     end
   end
 
   def self.patch(doc, _patch)
     case _patch
       when Hash
-        patched = doc.clone
-        _patch.each do |k, v|
-          if v.include?('<') and v.include?('>')
-            patched[k] = v['>']
-          elsif v.include?('<')
-            patched.delete(k)
-          elsif v.include?('>')
-            patched[k] = v['>']
+        if _patch.include?('<') and _patch.include?('>')
+          _patch['>']
+        else
+          patched = doc.clone
+          _patch.each do |k, v|
+            if v.include?('<') and v.include?('>')
+              patched[k] = v['>']
+            elsif v.include?('<')
+              patched.delete(k)
+            elsif v.include?('>')
+              patched[k] = v['>']
+            end
           end
+          patched
         end
-        patched
       when nil
         doc
     end
