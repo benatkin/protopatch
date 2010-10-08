@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "bundler", ">= 1.0.0.rc.5"
   s.add_development_dependency "rspec", ">= 1.3.0"
+  s.add_development_dependency "rake", ">= 0.8.7"
 
   s.files        = `git ls-files`.split("\n")
   s.executables  = `git ls-files`.split("\n").select{|f| f =~ /^bin/}
