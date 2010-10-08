@@ -46,13 +46,7 @@
   };
   Fid.patch = function(doc, _patch) {
     var _i, _ref, k, patched;
-    patched = {};
-    _ref = doc;
-    for (k in _ref) {
-      if (!__hasProp.call(_ref, k)) continue;
-      _i = _ref[k];
-      patched[k] = doc[k];
-    }
+    patched = _.clone(doc);
     _ref = _patch;
     for (k in _ref) {
       if (!__hasProp.call(_ref, k)) continue;

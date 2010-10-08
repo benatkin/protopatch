@@ -85,8 +85,8 @@
       });
     });
     return describe('patch', function() {
-      it('returns {} for two empty objects', function() {
-        return expect(Fid.patch({}, {})).toEqual({});
+      it('returns same when patching with null', function() {
+        return expect(Fid.patch({}, null)).toEqual({});
       });
       it('removes "<" item in patch', function() {
         return expect(Fid.patch({
@@ -107,23 +107,23 @@
         });
       });
       it('replaces "<" and ">" item in patch', function() {
-        return Fid.patch({
+        return expect(Fid.patch({
           'bananas': 5
         }, {
           'bananas': {
             '<': 5,
             '>': 3
           }
-        }).should === {
+        })).toEqual({
           'bananas': 3
-        };
+        });
       });
       return it('leaves unchanged with empty patch', function() {
-        return Fid.patch({
+        return expect(Fid.patch({
           'bananas': 5
-        }, {}).should === {
+        }, {})).toEqual({
           'bananas': 5
-        };
+        });
       });
     });
   });

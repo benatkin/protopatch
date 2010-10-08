@@ -50,8 +50,8 @@ describe Fid, "#diff" do
 end
 
 describe Fid, "#patch" do
-  it 'returns {} for two empty objects' do
-    Fid.patch({}, {}).should == {}
+  it 'returns the same when patching with nil' do
+    Fid.patch({}, nil).should == {}
   end
 
   it 'removes "<" item in patch' do
@@ -67,8 +67,8 @@ describe Fid, "#patch" do
        .should == {'bananas' => 3}
   end
 
-  it 'leaves unchanged with empty patch' do
-    Fid.patch({'bananas' => 5}, {}).should == {'bananas' => 5}
+  it 'leaves unchanged with nil patch' do
+    Fid.patch({'bananas' => 5}, nil).should == {'bananas' => 5}
   end
 
   it 'correctly patches with diff from README' do

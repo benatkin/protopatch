@@ -45,8 +45,8 @@ describe 'Fid', () ->
 
   describe 'patch', () ->
 
-    it 'returns {} for two empty objects', () ->
-      expect(Fid.patch({}, {})).toEqual({});
+    it 'returns same when patching with null', () ->
+      expect(Fid.patch({}, null)).toEqual({})
 
     it 'removes "<" item in patch', () ->
       expect(Fid.patch({'apples': 1}, {'apples': {'<': 1}})).toEqual({})
@@ -55,9 +55,9 @@ describe 'Fid', () ->
       expect(Fid.patch({}, {'bananas': {'>': 3}})).toEqual({'bananas': 3})
 
     it 'replaces "<" and ">" item in patch', () ->
-      Fid.patch({'bananas': 5}, {'bananas': {'<': 5, '>': 3}})
-         .should == {'bananas': 3}
+      expect(Fid.patch({'bananas': 5}, {'bananas': {'<': 5, '>': 3}}))
+         .toEqual({'bananas': 3})
 
     it 'leaves unchanged with empty patch', () ->
-      Fid.patch({'bananas': 5}, {}).should == {'bananas': 5}
+      expect(Fid.patch({'bananas': 5}, {})).toEqual({'bananas': 5})
 

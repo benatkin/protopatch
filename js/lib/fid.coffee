@@ -17,9 +17,7 @@ class Fid
     _diff = null if _.size(_diff) == 0
     _diff
   @patch: (doc, _patch) ->
-    patched = {}
-    for k of doc
-      patched[k] = doc[k]
+    patched = _.clone(doc)
     for k of _patch
       if _patch[k]['<'] and _patch[k]['>']
         patched[k] = _patch[k]['>']
