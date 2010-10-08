@@ -12,6 +12,7 @@ module Fid
         _diff[k] = {'>' => doc2[k]}
       end
     end
+    _diff = nil if _diff.size == 0
     _diff
   end
 

@@ -23,8 +23,8 @@ flat_diff = {
             }
 
 describe Fid, "#diff" do
-  it 'returns {} for two empty objects' do
-    Fid.diff({}, {}).should == {}
+  it 'returns nil for two empty objects' do
+    Fid.diff({}, {}).should be_nil
   end
 
   it 'returns "<" for item not in 2nd object' do
@@ -41,7 +41,7 @@ describe Fid, "#diff" do
   end
 
   it 'omits unchanged item' do
-    Fid.diff({'bananas' => 5}, {'bananas' => 5}).should == {}
+    Fid.diff({'bananas' => 5}, {'bananas' => 5}).should be_nil
   end
 
   it 'correctly returns diff from README' do

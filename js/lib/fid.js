@@ -39,6 +39,9 @@
         };
       }
     }
+    if (_.size(_diff) === 0) {
+      _diff = null;
+    }
     return _diff;
   };
   Fid.patch = function(doc, _patch) {

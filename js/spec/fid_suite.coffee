@@ -24,8 +24,8 @@ describe 'Fid', () ->
 
   describe 'diff', () ->
 
-    it 'returns {} for two empty objects', () ->
-      expect(Fid.diff({}, {})).toEqual({});
+    it 'returns null for two empty objects', () ->
+      expect(Fid.diff({}, {})).toBeNull();
 
     it 'returns "<" for item not in 2nd object', () ->
       expect(Fid.diff({'apples': 1}, {})).toEqual({'apples': {'<': 1}});
@@ -38,7 +38,7 @@ describe 'Fid', () ->
         .toEqual({'bananas': {'<': 5, '>': 3}})
 
     it 'omits unchanged item', ->
-      expect(Fid.diff({'bananas': 5}, {'bananas': 5})).toEqual({})
+      expect(Fid.diff({'bananas': 5}, {'bananas': 5})).toEqual()
 
     it 'correctly returns diff from README', ->
       expect(Fid.diff(flat_doc1, flat_doc2)).toEqual(flat_diff)

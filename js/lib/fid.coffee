@@ -14,6 +14,7 @@ class Fid
         _diff[k] = {'<': doc1[k]}
       else if doc2[k]
         _diff[k] = {'>': doc2[k]}
+    _diff = null if _.size(_diff) == 0
     _diff
   @patch: (doc, _patch) ->
     patched = {}

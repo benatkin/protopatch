@@ -2,10 +2,9 @@ require 'bundler'
 Bundler::GemHelper.install_tasks
 require 'spec/rake/spectask'
 
-desc 'generate tests'
-task :generate_tests do
-  require 'erb'
-  puts 'Not yet implemented.'
+desc 'watch coffeescript'
+task :watch_coffee do
+  sh 'coffee --watch -c js/spec/*.coffee js/lib/*.coffee'
 end
 
 desc "Run all specs"
