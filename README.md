@@ -4,15 +4,26 @@ Fid will be a JSON diff/patch tool.
 
 # No difference
 
-    expect(Fid.diff({"x": 5}, {"x": 5})).toEqual(null);
+    expect(Fid.diff({"x": 5}, {"x": 5})).toBeNull();
 
-# Completely different
+# Completely different object
 
     expect(Fid.diff({"red": 2, "green": 1}, {"golden": 1}))
       .toEqual({
         "+": {"golden": 1},
         "-": {"red": 2, "green": 1}
       });
+
+# Not going deeper in arrays (yet) except to test they're the same
+
+    expect(Fid.diff([3, 2], [3, 1, 9])).toEqual({"-": [3, 2], "+": [3, 1, 9]});
+
+    expect(Fid.diff([3, 2], [3, 2])).toBeNull();
+
+    expect(Fid.diff([3, 2], [3, {"x": 9, "y": 15}, 9]))
+      .toEqual({"-": [3, 2], "+": [3, {"x": 9, "y": 15}, 9]});
+
+    expect(Fid.diff([3, 2, {"x": 9, "y": 15}], [3, 2, {"x": 9, "y": 15}])).toBeNull();
 
 # Object
 
@@ -43,7 +54,7 @@ Result:
       "pears":   {"-": 1}
     }
 
-# Deep
+# Deep inside object
 
 Call:
 
@@ -93,7 +104,7 @@ easy to read and understand.
 
 # Edge Cases
 
-* objects that contain -, +, or - keys
+* objects that contain - or + keys
 
 One way to deal with edge cases is to return an error if objects contain the keys.
 This would necessitate changing the keys used by fid before calling fid.
