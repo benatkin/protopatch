@@ -1,5 +1,27 @@
 require 'spec_helper'
 
+flat_doc1 = {
+              "pears"   => 1,
+              "apples"  => {"red" => 2, "green" => 1},
+              "bananas" => 5,
+              "mangos"  => 2
+            }
+flat_doc2 = {
+              "apples"  => {"golden" => 1},
+              "bananas" => 3,
+              "oranges" => 6,
+              "mangos"  => 2
+            }
+flat_diff = {
+              "apples"  => {
+                             ">" => {"golden" => 1},
+                             "<" => {"red" => 2, "green" => 1}
+                           },
+              "bananas" => {">" => 3, "<" => 5},
+              "oranges" => {">" => 6},
+              "pears"   => {"<" => 1}
+            }
+
 describe Fid, "#diff" do
   it 'returns {} for two empty objects' do
     Fid.diff({}, {}).should == {}
@@ -23,27 +45,7 @@ describe Fid, "#diff" do
   end
 
   it 'correctly returns diff from README' do
-    Fid.diff({
-               "pears"   => 1,
-               "apples"  => {"red" => 2, "green" => 1},
-               "bananas" => 5,
-               "mangos"  => 2
-             },
-             {
-               "apples"  => {"golden" => 1},
-               "bananas" => 3,
-               "oranges" => 6,
-               "mangos"  => 2
-             })
-       .should == {
-                    "apples"  => {
-                                   ">" => {"golden" => 1},
-                                   "<" => {"red" => 2, "green" => 1}
-                                 },
-                    "bananas" => {">" => 3, "<" => 5},
-                    "oranges" => {">" => 6},
-                    "pears"   => {"<" => 1}
-                  }
+    Fid.diff(flat_doc1, flat_doc2).should == flat_diff
   end
 end
 
@@ -70,27 +72,7 @@ describe Fid, "#patch" do
   end
 
   it 'correctly patches with diff from README' do
-    Fid.patch({
-                "pears"   => 1,
-                "apples"  => {"red" => 2, "green" => 1},
-                "bananas" => 5,
-                "mangos"  => 2
-              },
-              {
-                "apples"  => {
-                               ">" => {"golden" => 1},
-                               "<" => {"red" => 2, "green" => 1}
-                             },
-                "bananas" => {">" => 3, "<" => 5},
-                "oranges" => {">" => 6},
-                "pears"   => {"<" => 1}
-              })
-       .should == {
-                    "apples"  => {"golden" => 1},
-                    "bananas" => 3,
-                    "oranges" => 6,
-                    "mangos"  => 2
-                  }
+    Fid.patch(flat_doc1, flat_diff).should == flat_doc2
   end
 end
 
