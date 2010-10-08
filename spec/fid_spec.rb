@@ -35,7 +35,7 @@ describe Fid, "#diff" do
     Fid.diff({}, {'bananas' => 3}).should == {'bananas' => {'>' => 3}}
   end
 
-  it 'returns "<" and "> for changed item' do
+  it 'returns "<" and ">" for changed item' do
     Fid.diff({'bananas' => 5}, {'bananas' => 3})
        .should == {'bananas' => {'<' => 5, '>' => 3}}
   end
