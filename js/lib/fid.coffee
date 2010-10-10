@@ -1,30 +1,30 @@
 class Fid
-  @diff: (doc1, doc2) ->
-    _diff = {}
+  @diff: (a, b) ->
+    p = {}
     keys = {}
-    for k of doc1
+    for k of a
       keys[k] = 1
-    for k of doc2
+    for k of b
       keys[k] = 1
     for k of keys
-      if doc1[k] and doc2[k]
-        unless doc1[k] == doc2[k]
-          _diff[k] = {'-': doc1[k], '+': doc2[k]}
-      else if doc1[k]
-        _diff[k] = {'-': doc1[k]}
-      else if doc2[k]
-        _diff[k] = {'+': doc2[k]}
-    _diff = null if _.size(_diff) == 0
-    _diff
-  @patch: (doc, _patch) ->
+      if a[k] and b[k]
+        unless a[k] == b[k]
+          p[k] = {'-': a[k], '+': b[k]}
+      else if a[k]
+        p[k] = {'-': a[k]}
+      else if b[k]
+        p[k] = {'+': b[k]}
+    p = null if _.size(p) == 0
+    p
+  @patch: (doc, p) ->
     patched = _.clone(doc)
-    for k of _patch
-      if _patch[k]['-'] and _patch[k]['+']
-        patched[k] = _patch[k]['+']
-      else if _patch[k]['-']
+    for k of p
+      if p[k]['-'] and p[k]['+']
+        patched[k] = p[k]['+']
+      else if p[k]['-']
         delete patched[k]
-      else if _patch[k]['+']
-        patched[k] = _patch[k]['+']
+      else if p[k]['+']
+        patched[k] = p[k]['+']
     patched
 
 window.Fid = Fid

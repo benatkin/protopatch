@@ -1,34 +1,34 @@
 module Fid
-  def self.diff(doc1, doc2)
-    if doc1 == doc2
+  def self.diff(a, b)
+    if a == b
       nil
-    elsif (doc1.keys & doc2.keys).size > 0
-      _diff = {}
-      (doc1.keys | doc2.keys).each do |k|
-        if doc1.include?(k) and doc2.include?(k)
-          unless doc1[k] == doc2[k]
-            _diff[k] = {'-' => doc1[k], '+' => doc2[k]}
+    elsif (a.keys & b.keys).size > 0
+      p = {}
+      (a.keys | b.keys).each do |k|
+        if a.include?(k) and b.include?(k)
+          unless a[k] == b[k]
+            p[k] = {'-' => a[k], '+' => b[k]}
           end
-        elsif doc1.include?(k)
-          _diff[k] = {'-' => doc1[k]}
-        elsif doc2.include?(k)
-          _diff[k] = {'+' => doc2[k]}
+        elsif a.include?(k)
+          p[k] = {'-' => a[k]}
+        elsif b.include?(k)
+          p[k] = {'+' => b[k]}
         end
       end
-      _diff
+      p
     else
-      _diff = {'-' => doc1, '+' => doc2}
+      p = {'-' => a, '+' => b}
     end
   end
 
-  def self.patch(doc, _patch)
-    case _patch
+  def self.patch(a, p)
+    case p
       when Hash
-        if _patch.include?('-') and _patch.include?('+')
-          _patch['+']
+        if p.include?('-') and p.include?('+')
+          p['+']
         else
-          patched = doc.clone
-          _patch.each do |k, v|
+          patched = a.clone
+          p.each do |k, v|
             if v.include?('-') and v.include?('+')
               patched[k] = v['+']
             elsif v.include?('-')
@@ -40,7 +40,7 @@ module Fid
           patched
         end
       when nil
-        doc
+        a
     end
   end
 end
