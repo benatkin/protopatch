@@ -19,23 +19,23 @@
   };
   flat_diff = {
     "apples": {
-      ">": {
+      "+": {
         "golden": 1
       },
-      "<": {
+      "-": {
         "red": 2,
         "green": 1
       }
     },
     "bananas": {
-      ">": 3,
-      "<": 5
+      "+": 3,
+      "-": 5
     },
     "oranges": {
-      ">": 6
+      "+": 6
     },
     "pears": {
-      "<": 1
+      "-": 1
     }
   };
   describe('Fid', function() {
@@ -43,33 +43,33 @@
       it('returns null for two empty objects', function() {
         return expect(Fid.diff({}, {})).toBeNull();
       });
-      it('returns "<" for item not in 2nd object', function() {
+      it('returns "-" for item not in 2nd object', function() {
         return expect(Fid.diff({
           'apples': 1
         }, {})).toEqual({
           'apples': {
-            '<': 1
+            '-': 1
           }
         });
       });
-      it('returns ">" for item not in 1st object', function() {
+      it('returns "+" for item not in 1st object', function() {
         return expect(Fid.diff({}, {
           'bananas': 3
         })).toEqual({
           'bananas': {
-            '>': 3
+            '+': 3
           }
         });
       });
-      it('returns "<" and "> for changed item', function() {
+      it('returns "-" and "+" for changed item', function() {
         return expect(Fid.diff({
           'bananas': 5
         }, {
           'bananas': 3
         })).toEqual({
           'bananas': {
-            '<': 5,
-            '>': 3
+            '-': 5,
+            '+': 3
           }
         });
       });
@@ -88,31 +88,31 @@
       it('returns same when patching with null', function() {
         return expect(Fid.patch({}, null)).toEqual({});
       });
-      it('removes "<" item in patch', function() {
+      it('removes "-" item in patch', function() {
         return expect(Fid.patch({
           'apples': 1
         }, {
           'apples': {
-            '<': 1
+            '-': 1
           }
         })).toEqual({});
       });
-      it('adds ">" item in patch', function() {
+      it('adds "+" item in patch', function() {
         return expect(Fid.patch({}, {
           'bananas': {
-            '>': 3
+            '+': 3
           }
         })).toEqual({
           'bananas': 3
         });
       });
-      it('replaces "<" and ">" item in patch', function() {
+      it('replaces "-" and "+" item in patch', function() {
         return expect(Fid.patch({
           'bananas': 5
         }, {
           'bananas': {
-            '<': 5,
-            '>': 3
+            '-': 5,
+            '+': 3
           }
         })).toEqual({
           'bananas': 3

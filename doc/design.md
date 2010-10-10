@@ -41,16 +41,16 @@ Result:
     {
       "lines": [
         {
-          "-": 0,
-          "<": [
+          "@": 0,
+          "-": [
             "#!/usr/bin/env ruby",
             "require 'rubygems'"
           ],
-          ">": ["#!/usr/bin/env ruby -rubygems"]
+          "+": ["#!/usr/bin/env ruby -rubygems"]
         },
         {
-          "-": 2,
-          ">": [
+          "@": 2,
+          "+": [
             "require 'haml'",
             "",
             "get '/inline' do",
@@ -59,11 +59,11 @@ Result:
           ]
         },
         {
-          "-": 9,
-          "<": [
+          "@": 9,
+          "-": [
             "  'Hello world!'"
           ]
-          ">": [
+          "+": [
             "  haml :index",
             "end",
             "",
@@ -80,7 +80,7 @@ Patching:
     function patch(orig, adiff) {
       for (var i=0; i < adiff.length; i++) {
         var diff = adiff[i];
-        var args = [diff["-"], diff["<"] ? diff["<"].length : 0].concat(diff[">"] ? diff[">"] : []);
+        var args = [diff["@"], diff["-"] ? diff["-"].length : 0].concat(diff["+"] ? diff["+"] : []);
         arr.splice.apply(arr, args);
       }
     }

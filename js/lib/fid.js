@@ -25,17 +25,17 @@
       if (doc1[k] && doc2[k]) {
         if (doc1[k] !== doc2[k]) {
           _diff[k] = {
-            '<': doc1[k],
-            '>': doc2[k]
+            '-': doc1[k],
+            '+': doc2[k]
           };
         }
       } else if (doc1[k]) {
         _diff[k] = {
-          '<': doc1[k]
+          '-': doc1[k]
         };
       } else if (doc2[k]) {
         _diff[k] = {
-          '>': doc2[k]
+          '+': doc2[k]
         };
       }
     }
@@ -51,12 +51,12 @@
     for (k in _ref) {
       if (!__hasProp.call(_ref, k)) continue;
       _i = _ref[k];
-      if (_patch[k]['<'] && _patch[k]['>']) {
-        patched[k] = _patch[k]['>'];
-      } else if (_patch[k]['<']) {
+      if (_patch[k]['-'] && _patch[k]['+']) {
+        patched[k] = _patch[k]['+'];
+      } else if (_patch[k]['-']) {
         delete patched[k];
-      } else if (_patch[k]['>']) {
-        patched[k] = _patch[k]['>'];
+      } else if (_patch[k]['+']) {
+        patched[k] = _patch[k]['+'];
       }
     }
     return patched;
