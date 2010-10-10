@@ -44,25 +44,25 @@
     }
     return p;
   };
-  Differ.prototype.patch = function(doc, p) {
-    var _i, _ref, k, patched;
-    patched = _.clone(doc);
+  Differ.prototype.patch = function(a, p) {
+    var _i, _ref, b, k;
+    b = _.clone(a);
     if (p === null) {
-      return patched;
+      return b;
     }
     _ref = p;
     for (k in _ref) {
       if (!__hasProp.call(_ref, k)) continue;
       _i = _ref[k];
       if (p[k]['-'] && p[k]['+']) {
-        patched[k] = p[k]['+'];
+        b[k] = p[k]['+'];
       } else if (p[k]['-']) {
-        delete patched[k];
+        delete b[k];
       } else if (p[k]['+']) {
-        patched[k] = p[k]['+'];
+        b[k] = p[k]['+'];
       }
     }
-    return patched;
+    return b;
   };
   Fid = function() {};
   Fid.Differ = Differ;

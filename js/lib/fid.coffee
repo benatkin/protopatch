@@ -16,17 +16,17 @@ class Differ
         p[k] = {'+': b[k]}
     p = null if _.size(p) == 0
     p
-  patch: (doc, p) ->
-    patched = _.clone(doc)
-    return patched if p == null
+  patch: (a, p) ->
+    b = _.clone(a)
+    return b if p == null
     for k of p
       if p[k]['-'] and p[k]['+']
-        patched[k] = p[k]['+']
+        b[k] = p[k]['+']
       else if p[k]['-']
-        delete patched[k]
+        delete b[k]
       else if p[k]['+']
-        patched[k] = p[k]['+']
-    patched
+        b[k] = p[k]['+']
+    b
 
 class Fid
   @Differ: Differ

@@ -32,17 +32,17 @@ module Fid
           if p.include?('-') and p.include?('+')
             p['+']
           else
-            patched = a.clone
+            b = a.clone
             p.each do |k, v|
               if v.include?('-') and v.include?('+')
-                patched[k] = v['+']
+                b[k] = v['+']
               elsif v.include?('-')
-                patched.delete(k)
+                b.delete(k)
               elsif v.include?('+')
-                patched[k] = v['+']
+                b[k] = v['+']
               end
             end
-            patched
+            b
           end
         when nil
           a
