@@ -1,5 +1,5 @@
-class Fid
-  @diff: (a, b) ->
+class Differ
+  diff: (a, b) ->
     p = {}
     keys = {}
     for k of a
@@ -16,7 +16,7 @@ class Fid
         p[k] = {'+': b[k]}
     p = null if _.size(p) == 0
     p
-  @patch: (doc, p) ->
+  patch: (doc, p) ->
     patched = _.clone(doc)
     for k of p
       if p[k]['-'] and p[k]['+']
@@ -26,5 +26,20 @@ class Fid
       else if p[k]['+']
         patched[k] = p[k]['+']
     patched
+
+class Fid
+  @Differ: Differ
+  @_default_differ: null
+
+  @default_differ: () ->
+    unless @_default_differ
+      @_default_differ = new Differ()
+    @_default_differ
+
+  @diff: (args...) ->
+    @default_differ().diff(args...)
+
+  @patch: (args...) ->
+    @default_differ().patch(args...)
 
 window.Fid = Fid

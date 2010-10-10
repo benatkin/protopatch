@@ -1,8 +1,8 @@
 (function() {
-  var Fid;
-  var __hasProp = Object.prototype.hasOwnProperty;
-  Fid = function() {};
-  Fid.diff = function(a, b) {
+  var Differ, Fid;
+  var __hasProp = Object.prototype.hasOwnProperty, __slice = Array.prototype.slice;
+  Differ = function() {};
+  Differ.prototype.diff = function(a, b) {
     var _i, _ref, k, keys, p;
     p = {};
     keys = {};
@@ -44,7 +44,7 @@
     }
     return p;
   };
-  Fid.patch = function(doc, p) {
+  Differ.prototype.patch = function(doc, p) {
     var _i, _ref, k, patched;
     patched = _.clone(doc);
     _ref = p;
@@ -60,6 +60,25 @@
       }
     }
     return patched;
+  };
+  Fid = function() {};
+  Fid.Differ = Differ;
+  Fid._default_differ = null;
+  Fid.default_differ = function() {
+    if (!(this._default_differ)) {
+      this._default_differ = new Differ();
+    }
+    return this._default_differ;
+  };
+  Fid.diff = function() {
+    var _ref, args;
+    args = __slice.call(arguments, 0);
+    return (_ref = this.default_differ()).diff.apply(_ref, args);
+  };
+  Fid.patch = function() {
+    var _ref, args;
+    args = __slice.call(arguments, 0);
+    return (_ref = this.default_differ()).patch.apply(_ref, args);
   };
   window.Fid = Fid;
 }).call(this);
