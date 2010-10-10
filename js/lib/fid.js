@@ -1,8 +1,8 @@
 (function() {
-  var Differ, Fid;
+  var Fid, Patcher;
   var __hasProp = Object.prototype.hasOwnProperty, __slice = Array.prototype.slice;
-  Differ = function() {};
-  Differ.prototype.diff = function(a, b) {
+  Patcher = function() {};
+  Patcher.prototype.diff = function(a, b) {
     var _i, _ref, k, keys, p;
     p = {};
     keys = {};
@@ -44,7 +44,7 @@
     }
     return p;
   };
-  Differ.prototype.patch = function(a, p) {
+  Patcher.prototype.patch = function(a, p) {
     var _i, _ref, b, k;
     b = _.clone(a);
     if (p === null) {
@@ -65,23 +65,23 @@
     return b;
   };
   Fid = function() {};
-  Fid.Differ = Differ;
-  Fid._default_differ = null;
-  Fid.default_differ = function() {
-    if (!(this._default_differ)) {
-      this._default_differ = new Differ();
+  Fid.Patcher = Patcher;
+  Fid._default_patcher = null;
+  Fid.default_patcher = function() {
+    if (!(this._default_patcher)) {
+      this._default_patcher = new Patcher();
     }
-    return this._default_differ;
+    return this._default_patcher;
   };
   Fid.diff = function() {
     var _ref, args;
     args = __slice.call(arguments, 0);
-    return (_ref = this.default_differ()).diff.apply(_ref, args);
+    return (_ref = this.default_patcher()).diff.apply(_ref, args);
   };
   Fid.patch = function() {
     var _ref, args;
     args = __slice.call(arguments, 0);
-    return (_ref = this.default_differ()).patch.apply(_ref, args);
+    return (_ref = this.default_patcher()).patch.apply(_ref, args);
   };
   window.Fid = Fid;
 }).call(this);

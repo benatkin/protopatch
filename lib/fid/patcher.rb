@@ -1,5 +1,5 @@
 module Fid
-  class Differ
+  class Patcher
     def initialize(opts={})
       @opts = opts
     end

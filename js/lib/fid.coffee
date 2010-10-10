@@ -1,4 +1,4 @@
-class Differ
+class Patcher
   diff: (a, b) ->
     p = {}
     keys = {}
@@ -29,18 +29,18 @@ class Differ
     b
 
 class Fid
-  @Differ: Differ
-  @_default_differ: null
+  @Patcher: Patcher
+  @_default_patcher: null
 
-  @default_differ: () ->
-    unless @_default_differ
-      @_default_differ = new Differ()
-    @_default_differ
+  @default_patcher: () ->
+    unless @_default_patcher
+      @_default_patcher = new Patcher()
+    @_default_patcher
 
   @diff: (args...) ->
-    @default_differ().diff(args...)
+    @default_patcher().diff(args...)
 
   @patch: (args...) ->
-    @default_differ().patch(args...)
+    @default_patcher().patch(args...)
 
 window.Fid = Fid
