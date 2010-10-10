@@ -1,4 +1,15 @@
 class Patcher
+  patch: (a, p) ->
+    b = _.clone(a)
+    return b if p == null
+    for k of p
+      if p[k]['-'] and p[k]['+']
+        b[k] = p[k]['+']
+      else if p[k]['-']
+        delete b[k]
+      else if p[k]['+']
+        b[k] = p[k]['+']
+    b
   diff: (a, b) ->
     p = {}
     keys = {}
@@ -16,17 +27,6 @@ class Patcher
         p[k] = {'+': b[k]}
     p = null if _.size(p) == 0
     p
-  patch: (a, p) ->
-    b = _.clone(a)
-    return b if p == null
-    for k of p
-      if p[k]['-'] and p[k]['+']
-        b[k] = p[k]['+']
-      else if p[k]['-']
-        delete b[k]
-      else if p[k]['+']
-        b[k] = p[k]['+']
-    b
 
 class Fid
   @Patcher: Patcher
@@ -37,10 +37,10 @@ class Fid
       @_default_patcher = new Patcher()
     @_default_patcher
 
-  @diff: (args...) ->
-    @default_patcher().diff(args...)
-
   @patch: (args...) ->
     @default_patcher().patch(args...)
+
+  @diff: (args...) ->
+    @default_patcher().diff(args...)
 
 window.Fid = Fid
