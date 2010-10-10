@@ -85,7 +85,7 @@
       });
     });
     return describe('patch', function() {
-      it('returns same when patching with null', function() {
+      it('returns the same when patching with null', function() {
         return expect(Fid.patch({}, null)).toEqual({});
       });
       it('removes "-" item in patch', function() {
@@ -118,12 +118,15 @@
           'bananas': 3
         });
       });
-      return it('leaves unchanged with empty patch', function() {
+      it('leaves unchanged with nil patch', function() {
         return expect(Fid.patch({
           'bananas': 5
-        }, {})).toEqual({
+        }, null)).toEqual({
           'bananas': 5
         });
+      });
+      return it('correctly patches with diff from README', function() {
+        return expect(Fid.patch(flat_doc1, flat_diff)).toEqual(flat_doc2);
       });
     });
   });

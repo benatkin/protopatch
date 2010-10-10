@@ -47,6 +47,9 @@
   Differ.prototype.patch = function(doc, p) {
     var _i, _ref, k, patched;
     patched = _.clone(doc);
+    if (p === null) {
+      return patched;
+    }
     _ref = p;
     for (k in _ref) {
       if (!__hasProp.call(_ref, k)) continue;

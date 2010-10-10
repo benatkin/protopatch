@@ -25,10 +25,10 @@ describe 'Fid', () ->
   describe 'diff', () ->
 
     it 'returns null for two empty objects', () ->
-      expect(Fid.diff({}, {})).toBeNull();
+      expect(Fid.diff({}, {})).toBeNull()
 
     it 'returns "-" for item not in 2nd object', () ->
-      expect(Fid.diff({'apples': 1}, {})).toEqual({'apples': {'-': 1}});
+      expect(Fid.diff({'apples': 1}, {})).toEqual({'apples': {'-': 1}})
 
     it 'returns "+" for item not in 1st object', () ->
       expect(Fid.diff({}, {'bananas': 3})).toEqual({'bananas': {'+': 3}})
@@ -45,7 +45,7 @@ describe 'Fid', () ->
 
   describe 'patch', () ->
 
-    it 'returns same when patching with null', () ->
+    it 'returns the same when patching with null', () ->
       expect(Fid.patch({}, null)).toEqual({})
 
     it 'removes "-" item in patch', () ->
@@ -58,6 +58,9 @@ describe 'Fid', () ->
       expect(Fid.patch({'bananas': 5}, {'bananas': {'-': 5, '+': 3}}))
          .toEqual({'bananas': 3})
 
-    it 'leaves unchanged with empty patch', () ->
-      expect(Fid.patch({'bananas': 5}, {})).toEqual({'bananas': 5})
+    it 'leaves unchanged with nil patch', () ->
+      expect(Fid.patch({'bananas': 5}, null)).toEqual({'bananas': 5})
+
+    it 'correctly patches with diff from README', () ->
+      expect(Fid.patch(flat_doc1, flat_diff)).toEqual(flat_doc2)
 

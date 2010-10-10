@@ -18,6 +18,7 @@ class Differ
     p
   patch: (doc, p) ->
     patched = _.clone(doc)
+    return patched if p == null
     for k of p
       if p[k]['-'] and p[k]['+']
         patched[k] = p[k]['+']
