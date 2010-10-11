@@ -37,10 +37,8 @@ class Fid
       @_default_patcher = new Patcher()
     @_default_patcher
 
-  @patch: (args...) ->
-    @default_patcher().patch(args...)
+  @patch: (args...) -> @default_patcher().patch(args...)
 
-  @diff: (args...) ->
-    @default_patcher().diff(args...)
+  @diff: (args...) -> @default_patcher().diff(args...)
 
 window.Fid = Fid
