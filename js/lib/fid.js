@@ -68,10 +68,7 @@
   Fid.Patcher = Patcher;
   Fid._default_patcher = null;
   Fid.default_patcher = function() {
-    if (!(this._default_patcher)) {
-      this._default_patcher = new Patcher();
-    }
-    return this._default_patcher;
+    return this._default_patcher || (this._default_patcher = new Patcher());
   };
   Fid.patch = function() {
     var _ref, args;

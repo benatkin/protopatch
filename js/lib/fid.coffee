@@ -33,9 +33,7 @@ class Fid
   @_default_patcher: null
 
   @default_patcher: () ->
-    unless @_default_patcher
-      @_default_patcher = new Patcher()
-    @_default_patcher
+    @_default_patcher ||= new Patcher()
 
   @patch: (args...) -> @default_patcher().patch(args...)
 
