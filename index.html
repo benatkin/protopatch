@@ -1,1 +1,136 @@
-My GitHub Page
+<!DOCTYPE html> 
+<html dir="ltr" lang="en-US">
+  <head>
+    <title>Fid</title>
+    <style type="text/css">
+      div.messageTemplates {
+        display: none;
+      }
+      a {
+        text-decoration: none;
+      }
+      h1 {
+        font-family: Helvetica, sans-serif;
+        font-size: 36pt;
+        margin-bottom: 0.3em;
+      }
+      h1 a {
+        color: #f00;
+      }
+      h1 a:hover {
+        background: #f00;
+        color: #fff;
+        padding: 0.1em 0.5em;
+      }
+      h1 sup {
+        font-size: 24pt;
+        color: black;
+      }
+      span.stache {
+        font-family: Courier New;
+      }
+      span.colon {
+        font-family: Times New Roman, serif;
+      }
+      a.json {
+        font-weight: normal;
+        color: #909;
+      }
+      a.json:hover {
+        font-weight: normal;
+        background-color: #909;
+        color: #ff0;
+      }
+      .wrap {
+        margin: 5px auto;
+        width: 720px;
+      }
+      .cue {
+        background-color: #cef;
+      }
+      .message {
+        padding: 0.5em 0.5em 0.3em 0.5em;
+        margin-bottom: 0.3em;
+      }
+      .input textarea {
+        width: 100%;
+        height: 3em;
+        font-family: Helvetica, Arial, sans-serif;
+        font-size: 14pt;
+        padding: 0.2em;
+        border: 1px solid #999;
+        outline: none;
+        margin-left: -0.3em;
+      }
+      .input textarea:focus {
+        border: 1px solid #999;
+        outline: none;
+      }
+      a.command, a.keybinding {
+        font-family: monospace;
+        color: #090;
+      }
+      a.command:hover, a.keybinding:hover {
+        font-family: monospace;
+        background-color: #090;
+        color: #fff;
+      }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="vendor/jquery.caret.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('.input textarea').focus();
+      });
+
+      $('.input textarea').live('keydown keypress', function(e) {
+        if (e.type === 'keypress' && e.keyCode === 13) {
+          e.preventDefault();
+          if ($(this).val().indexOf(':help') != -1) {
+            $(this).val('');
+            $('.messages').prepend($('#help_').clone().attr('id', ''));
+          }
+        }
+      }).live('blur', function() {
+        $.last_textarea = this;
+      });
+      $('.command').live('click', function() {
+        var sel = $(this);
+        var tSel = $($.last_textarea);
+        var tPos = tSel.getCaretPosition();
+        var txt = sel.text();
+        tSel.insertAtCaret(txt).setCaretPosition(tPos + txt.length);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <h1>
+          <a href="http://github.com/benatkin/fid">fid*</a> 
+          <sup><span class="colon">:</span> a patch/diff tool for <span class="stache">{</span><a class="json" href="http://json.org/">json</a><span class="stache">}</span></sup>
+        </h1>
+      </div>
+      <div class="hints">
+        <div class="message hint">
+        </div>
+      </div>
+      <div class="input">
+        <div class="message editing">
+          <textarea></textarea>
+        </div>
+      </div>
+      <div class="messages">
+        <div class="message cue">
+          Welcome to the demo. 
+          To see help, type <a class="command" href="javascript:void(0)">:help</a> into the above box and press <a class="keybinding" href="javascript:void(0)">&lt;enter&gt;</a>.
+        </div>
+      </div>
+      <div class="messageTemplates">
+        <div class="message cue" id="help_">
+          This demo has not yet been implemented. Please see the <a href="http://github.com/benatkin/fid">README</a> for information on fid.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
