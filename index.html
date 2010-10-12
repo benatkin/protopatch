@@ -88,7 +88,7 @@
           e.preventDefault();
           if ($(this).val().indexOf(':help') != -1) {
             $(this).val('');
-            $('.messages').prepend($('#help_').clone().attr('id', ''));
+            $('#help_').clone().attr('id', '').hide().prependTo('.messages').slideDown();
           }
         }
       }).live('blur', function() {
