@@ -146,6 +146,10 @@
             }
             io.slideDown();
             $(this).val('');
+          } else if (request.indexOf('clear') == 0) {
+            $('.messages div').slideUp().hide();
+            $(this).val('');
+            $('.templates .help_help').clone().hide().prependTo('.messages').slideDown();
           }
         }
       }).live('blur', function() {
@@ -196,6 +200,12 @@
           <p>An example is: <a class="command" href="javascript:void(0)">js Fid.diff({"c": 2, "d": 3}, {"a": 1, "c": -2})</a></p>
         </div>
         <div class="message io">
+        </div>
+        <div class="message cue help_help">
+          <p>
+            Welcome to the demo. 
+            To see help, type <a class="command" href="javascript:void(0)">help</a> into the above box and press <a class="keybinding" href="javascript:void(0)">&lt;enter&gt;</a>.
+          </p>
         </div>
       </div>
     </div>
