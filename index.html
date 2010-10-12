@@ -3,7 +3,7 @@
   <head>
     <title>Fid</title>
     <style type="text/css">
-      div.messageTemplates {
+      div.templates {
         display: none;
       }
       a {
@@ -88,7 +88,11 @@
           e.preventDefault();
           if ($(this).val().indexOf(':help') != -1) {
             $(this).val('');
-            $('#help_').clone().attr('id', '').hide().prependTo('.messages').slideDown();
+            if ($('.messages .help_index').size() > 0) {
+              $('.messages .help_index').hide().prependTo('.messages').fadeIn();
+            } else {
+              $('.templates .help_index').clone().hide().prependTo('.messages').slideDown();
+            }
           }
         }
       }).live('blur', function() {
@@ -126,8 +130,8 @@
           To see help, type <a class="command" href="javascript:void(0)">:help</a> into the above box and press <a class="keybinding" href="javascript:void(0)">&lt;enter&gt;</a>.
         </div>
       </div>
-      <div class="messageTemplates">
-        <div class="message cue" id="help_">
+      <div class="templates">
+        <div class="message cue help_index">
           This demo has not yet been implemented. Please see the <a href="http://github.com/benatkin/fid">README</a> for information on fid.
         </div>
       </div>
