@@ -3,11 +3,15 @@
   <head>
     <title>Fid</title>
     <style type="text/css">
-      div.templates {
+      div.templates, .hidden {
         display: none;
       }
       a {
         text-decoration: none;
+      }
+      p {
+        margin-bottom: 0.4em;
+        margin-top: 0.4em;
       }
       h1 {
         font-family: Helvetica, sans-serif;
@@ -49,7 +53,7 @@
         background-color: #cef;
       }
       .message {
-        padding: 0.5em 0.5em 0.3em 0.5em;
+        padding: 0.1em 0.5em 0.1em 0.5em;
         margin-bottom: 0.3em;
       }
       .input textarea {
@@ -75,9 +79,17 @@
         background-color: #090;
         color: #fff;
       }
+      .io {
+        background-color: #ffb;
+      }
+      .error {
+        color: #f00;
+      }
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="lib/fid.js"></script>
     <script src="vendor/jquery.caret.js"></script>
+    <script src="vendor/underscore-min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
         $('.input textarea').focus();
@@ -86,13 +98,52 @@
       $('.input textarea').live('keydown keypress', function(e) {
         if (e.type === 'keypress' && e.keyCode === 13) {
           e.preventDefault();
-          if ($(this).val().indexOf(':help') != -1) {
-            $(this).val('');
+          request = $(this).val();
+          if (request.indexOf(':') == 0) {
             if ($('.messages .help_index').size() > 0) {
               $('.messages .help_index').hide().prependTo('.messages').fadeIn();
             } else {
               $('.templates .help_index').clone().hide().prependTo('.messages').slideDown();
             }
+            $(this).val('');
+          } else if ($.trim(request).length > 0) {
+            response = null;
+            error = null;
+            responseText = "";
+            try {
+              response = eval("_result = " + request);
+            } catch (e) {
+              error = '<p class="error">An error occurred while running the JavaScript.</p>';
+            }
+            if (response) {
+              try {
+                responseText = JSON.stringify(response, null, 2);
+              } catch (e) {
+                error = '<p class="error">An error occurred while rendering the JavaScript output.</p>';
+              }
+            }
+            if ($.trim(responseText) == "") {
+              var message = '';
+              if (response === undefined) {
+                message = 'undefined';
+              } else if (response === null) {
+                message = 'null';
+              } else {
+                message = '[' + typeof response + ']';
+              }
+              error = '<p class="error">' + message + '</p>';
+            }
+            var io = $('.templates .io').clone().hide().prependTo('.messages');
+            $('<a>').addClass('command').attr('href', 'javascript:void(0)').text(request).appendTo(io);
+            if (error) {
+              io.append(error);
+            } else {
+              var pre = $('<pre>');
+              io.append(pre);
+              pre.text(responseText);
+            }
+            io.slideDown();
+            $(this).val('');
           }
         }
       }).live('blur', function() {
@@ -121,18 +172,28 @@
       </div>
       <div class="input">
         <div class="message editing">
-          <textarea></textarea>
+          <p>
+            <textarea></textarea>
+          </p>
         </div>
       </div>
       <div class="messages">
         <div class="message cue">
-          Welcome to the demo. 
-          To see help, type <a class="command" href="javascript:void(0)">:help</a> into the above box and press <a class="keybinding" href="javascript:void(0)">&lt;enter&gt;</a>.
+          <p>
+            Welcome to the demo. 
+            To see help, type <a class="command" href="javascript:void(0)">:help</a> into the above box and press <a class="keybinding" href="javascript:void(0)">&lt;enter&gt;</a>.
+          </p>
         </div>
       </div>
       <div class="templates">
         <div class="message cue help_index">
-          This demo has not yet been implemented. Please see the <a href="http://github.com/benatkin/fid">README</a> for information on fid.
+          <p>Text that doesn't start with a colon will be executed as javascript.</p>
+          <p class="hidden">To toggle between single-line and multi-line mode, press <a class="keybinding" href="javascript:void(0)">&lt;C-l&gt;</a>.</p>
+          <p>Fid's methods are under the Fid object. The two methods are diff and patch.</p>
+          <p class="hidden">For information, type <a class="command" href="javascript:void(0)">:help diff</a> or <a class="command" href="javascript:void(0)">:help patch</a>.
+          <p>An example is: <a class="command" href="javascript:void(0)">Fid.diff({"c": 2, "d": 3}, {"a": 1, "c": -2})</a></p>
+        </div>
+        <div class="message io">
         </div>
       </div>
     </div>
