@@ -99,14 +99,16 @@
         if (e.type === 'keypress' && e.keyCode === 13) {
           e.preventDefault();
           request = $(this).val();
-          if (request.indexOf(':') == 0) {
+          if (request.indexOf('help') == 0) {
+            request = request.substr(5);
             if ($('.messages .help_index').size() > 0) {
               $('.messages .help_index').hide().prependTo('.messages').fadeIn();
             } else {
               $('.templates .help_index').clone().hide().prependTo('.messages').slideDown();
             }
             $(this).val('');
-          } else if ($.trim(request).length > 0) {
+          } else if (request.indexOf('js ') == 0) {
+            request = request.substr(3);
             response = null;
             error = null;
             responseText = "";
@@ -181,17 +183,17 @@
         <div class="message cue">
           <p>
             Welcome to the demo. 
-            To see help, type <a class="command" href="javascript:void(0)">:help</a> into the above box and press <a class="keybinding" href="javascript:void(0)">&lt;enter&gt;</a>.
+            To see help, type <a class="command" href="javascript:void(0)">help</a> into the above box and press <a class="keybinding" href="javascript:void(0)">&lt;enter&gt;</a>.
           </p>
         </div>
       </div>
       <div class="templates">
         <div class="message cue help_index">
-          <p>Text that doesn't start with a colon will be executed as javascript.</p>
+          <p>Text that starts with <a class="command" href="javascript:void(0)">js</a> will be executed as javascript.</p>
           <p class="hidden">To toggle between single-line and multi-line mode, press <a class="keybinding" href="javascript:void(0)">&lt;C-l&gt;</a>.</p>
           <p>Fid's methods are under the Fid object. The two methods are diff and patch.</p>
           <p class="hidden">For information, type <a class="command" href="javascript:void(0)">:help diff</a> or <a class="command" href="javascript:void(0)">:help patch</a>.
-          <p>An example is: <a class="command" href="javascript:void(0)">Fid.diff({"c": 2, "d": 3}, {"a": 1, "c": -2})</a></p>
+          <p>An example is: <a class="command" href="javascript:void(0)">js Fid.diff({"c": 2, "d": 3}, {"a": 1, "c": -2})</a></p>
         </div>
         <div class="message io">
         </div>
