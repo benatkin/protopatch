@@ -22,57 +22,57 @@ flat_patch = {
               "pears"   => {"-" => 1}
             }
 
-describe Fid, "#patch" do
+describe ProtoPatch, "#patch" do
   it 'returns the same when patching with nil' do
-    Fid.patch({}, nil).should == {}
+    ProtoPatch.patch({}, nil).should == {}
   end
 
   it 'removes "-" item in patch' do
-    Fid.patch({'apples' => 1}, {'-' => {'apples' => 1}, '+' => {}}).should == {}
+    ProtoPatch.patch({'apples' => 1}, {'-' => {'apples' => 1}, '+' => {}}).should == {}
   end
 
   it 'adds "+" item in patch' do
-    Fid.patch({}, {'-' => {}, '+' => {'bananas' => 3}}).should == {'bananas' => 3}
+    ProtoPatch.patch({}, {'-' => {}, '+' => {'bananas' => 3}}).should == {'bananas' => 3}
   end
 
   it 'replaces "-" and "+" item in patch' do
-    Fid.patch({'bananas' => 5}, {'bananas' => {'-' => 5, '+' => 3}})
-       .should == {'bananas' => 3}
+    ProtoPatch.patch({'bananas' => 5}, {'bananas' => {'-' => 5, '+' => 3}})
+              .should == {'bananas' => 3}
   end
 
   it 'leaves unchanged with nil patch' do
-    Fid.patch({'bananas' => 5}, nil).should == {'bananas' => 5}
+    ProtoPatch.patch({'bananas' => 5}, nil).should == {'bananas' => 5}
   end
 
   it 'correctly patches with diff from README' do
-    Fid.patch(flat_doc1, flat_patch).should == flat_doc2
+    ProtoPatch.patch(flat_doc1, flat_patch).should == flat_doc2
   end
 end
 
-describe Fid, "#diff" do
+describe ProtoPatch, "#diff" do
   it 'returns nil for two empty objects' do
-    Fid.diff({}, {}).should be_nil
+    ProtoPatch.diff({}, {}).should be_nil
   end
 
   it 'returns "-" for item not in 2nd object' do
-    Fid.diff({'apples' => 1}, {}).should == {'-' => {'apples' => 1}, '+' => {}}
+    ProtoPatch.diff({'apples' => 1}, {}).should == {'-' => {'apples' => 1}, '+' => {}}
   end
 
   it 'returns "+" for item not in 1st object' do
-    Fid.diff({}, {'bananas' => 3}).should == {'-' => {}, '+' => {'bananas' => 3}}
+    ProtoPatch.diff({}, {'bananas' => 3}).should == {'-' => {}, '+' => {'bananas' => 3}}
   end
 
   it 'returns "-" and "+" for changed item' do
-    Fid.diff({'bananas' => 5}, {'bananas' => 3})
-       .should == {'bananas' => {'-' => 5, '+' => 3}}
+    ProtoPatch.diff({'bananas' => 5}, {'bananas' => 3})
+              .should == {'bananas' => {'-' => 5, '+' => 3}}
   end
 
   it 'omits unchanged item' do
-    Fid.diff({'bananas' => 5}, {'bananas' => 5}).should be_nil
+    ProtoPatch.diff({'bananas' => 5}, {'bananas' => 5}).should be_nil
   end
 
   it 'correctly returns diff from README' do
-    Fid.diff(flat_doc1, flat_doc2).should == flat_patch
+    ProtoPatch.diff(flat_doc1, flat_doc2).should == flat_patch
   end
 end
 

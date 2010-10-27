@@ -1,4 +1,4 @@
-module Fid
+module ProtoPatch
   class << self
     attr_writer   :default_patcher
 
@@ -13,5 +13,5 @@ module Fid
   end
 end
 
-require 'fid/patcher'
+require 'protopatch/patcher'
 

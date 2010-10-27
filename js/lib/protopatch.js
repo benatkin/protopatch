@@ -1,5 +1,5 @@
 (function() {
-  var Fid, Patcher;
+  var Patcher, ProtoPatch;
   var __hasProp = Object.prototype.hasOwnProperty, __slice = Array.prototype.slice;
   Patcher = function() {};
   Patcher.prototype.patch = function(a, p) {
@@ -64,21 +64,21 @@
     }
     return p;
   };
-  Fid = function() {};
-  Fid.Patcher = Patcher;
-  Fid._default_patcher = null;
-  Fid.default_patcher = function() {
+  ProtoPatch = function() {};
+  ProtoPatch.Patcher = Patcher;
+  ProtoPatch._default_patcher = null;
+  ProtoPatch.default_patcher = function() {
     return this._default_patcher || (this._default_patcher = new Patcher());
   };
-  Fid.patch = function() {
+  ProtoPatch.patch = function() {
     var _ref, args;
     args = __slice.call(arguments, 0);
     return (_ref = this.default_patcher()).patch.apply(_ref, args);
   };
-  Fid.diff = function() {
+  ProtoPatch.diff = function() {
     var _ref, args;
     args = __slice.call(arguments, 0);
     return (_ref = this.default_patcher()).diff.apply(_ref, args);
   };
-  window.Fid = Fid;
+  window.ProtoPatch = ProtoPatch;
 }).call(this);

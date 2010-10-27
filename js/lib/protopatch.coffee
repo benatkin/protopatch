@@ -28,7 +28,7 @@ class Patcher
     p = null if _.size(p) == 0
     p
 
-class Fid
+class ProtoPatch
   @Patcher: Patcher
   @_default_patcher: null
 
@@ -39,4 +39,4 @@ class Fid
 
   @diff: (args...) -> @default_patcher().diff(args...)
 
-window.Fid = Fid
+window.ProtoPatch = ProtoPatch

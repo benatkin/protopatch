@@ -1,1 +1,1 @@
-require 'fid'
+require 'protopatch'

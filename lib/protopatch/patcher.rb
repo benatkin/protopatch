@@ -1,4 +1,4 @@
-module Fid
+module ProtoPatch
   class Patcher
     def initialize(opts={})
       @opts = opts
