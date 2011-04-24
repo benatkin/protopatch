@@ -136,7 +136,7 @@
               error = '<p class="error">' + message + '</p>';
             }
             var io = $('.templates .io').clone().hide().prependTo('.messages');
-            $('<a>').addClass('command').attr('href', 'javascript:void(0)').text(request).appendTo(io);
+            $('<a>').addClass('command').attr('href', 'javascript:void(0)').text('js ' + request).appendTo(io);
             if (error) {
               io.append(error);
             } else {
